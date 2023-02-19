@@ -1,4 +1,5 @@
-const contractAddress = "0xa2DBeE5F016Ee1e749d9aAA11c232EEC1e1418b3"
+const contractAddress = "0x42841ee00b21bcf92afb4280e47a60e15aa42fc2"
+//"0xa2DBeE5F016Ee1e749d9aAA11c232EEC1e1418b3"
 // "0x365dC45bf81ef6Ce719a373c4461111939CF83c6"
 
 const abi = [
@@ -109,6 +110,11 @@ const abi = [
 		"inputs": [
 			{
 				"components": [
+					{
+						"internalType": "uint256",
+						"name": "mainId",
+						"type": "uint256"
+					},
 					{
 						"internalType": "uint256",
 						"name": "id",
@@ -280,6 +286,11 @@ const abi = [
 		"outputs": [
 			{
 				"components": [
+					{
+						"internalType": "uint256",
+						"name": "mainId",
+						"type": "uint256"
+					},
 					{
 						"internalType": "uint256",
 						"name": "id",
@@ -466,6 +477,11 @@ const abi = [
 		"outputs": [
 			{
 				"internalType": "uint256",
+				"name": "mainId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
 				"name": "id",
 				"type": "uint256"
 			},
@@ -618,7 +634,19 @@ const abi = [
 		],
 		"stateMutability": "view",
 		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalQuestions",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	}
 ]
-
-  export {abi, contractAddress};
+export {abi, contractAddress};
