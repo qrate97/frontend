@@ -3,12 +3,8 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
-import { useContext } from "react";
-import AuthContext from "../context/authContext";
 
 export default function Home() {
-  const { account, connectWallet, authReady } = useContext(AuthContext);
-  console.log(account);
   return (
     <>
       <Head>

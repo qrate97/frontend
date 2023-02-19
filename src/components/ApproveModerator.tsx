@@ -11,17 +11,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 import approveModerator from "@/pages/api/addModerator";
-
-const subjects = ["DSA", "Blockchain", "Python", "RDBMS"];
+import { subjects } from "@/data";
 
 const ApproveModerator = () => {
   const [subject, setSubject] = useState<string>("");
   const [address, setAddress] = useState<string>("");
 
   const handleSubmit = async () => {
-    console.log("inSubmit");
     if (subject != "" && address != "") {
-      console.log("inid");
       const res = await approveModerator(address, subject);
       console.log(res);
     }
