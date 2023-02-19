@@ -3,8 +3,12 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
+import { useContext } from "react";
+import AuthContext from "../context/authContext";
 
 export default function Home() {
+  const { account, connectWallet, authReady } = useContext(AuthContext);
+  console.log(account);
   return (
     <>
       <Head>
@@ -16,8 +20,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-full h-full  py-5 px-40 h-screen">
-        <Navbar />
+      <main className="w-full h-full  py-5 px-40">
         <div className="flex h-full items-center shadow my-5">
           <div className="text-4xl text-center font-semibold w-1/2 p-5">
             <p>The largest question bank </p>

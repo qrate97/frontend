@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
+import Navbar from "@/components/Navbar";
+import { AuthContextProvider } from "@/context/authContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
@@ -11,7 +13,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider>
-        <Component {...pageProps} />
+        <AuthContextProvider>
+          <Navbar />
+          <Component {...pageProps} />
+        </AuthContextProvider>
       </ChakraProvider>
     </ApolloProvider>
   );

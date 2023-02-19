@@ -3,6 +3,8 @@ import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import ModeratorQuestion from "@/components/ModeratorQuestions";
 import { gql, useQuery } from "@apollo/client";
+import { useContext } from "react";
+import AuthContext from "../context/authContext";
 
 const QUERY = gql`
   {
@@ -25,7 +27,7 @@ const QUERY = gql`
 `;
 
 const Moderator = () => {
-  const [moderator, setModerator] = useState();
+  const { account, connectWallet, authReady } = useContext(AuthContext);
   // const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY);
 
   // useEffect(() => {
@@ -49,8 +51,7 @@ const Moderator = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full h-full  py-5 px-40 h-screen">
-        <Navbar />
-        <div className="shadow m-10">{!moderator && <ModeratorQuestion />}</div>
+        <div className="shadow m-10">{<ModeratorQuestion />}</div>
         {data && <>data is here</>}
       </main>
     </>

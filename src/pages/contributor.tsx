@@ -16,7 +16,6 @@ const Contributor = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full h-full  py-5 px-40 h-screen">
-        <Navbar />
         <div className="shadow m-10">{!contributor && <QuestionTable />}</div>
       </main>
     </>
