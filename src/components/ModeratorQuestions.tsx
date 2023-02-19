@@ -13,6 +13,7 @@ import {
 import { gql, useLazyQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/authContext";
+import updateQuestion from "@/pages/api/updateQuestion";
 
 const QUERY = gql`
   query myQuery($subject: String!) {
@@ -40,6 +41,10 @@ const ModeratorQuestion = (props: any) => {
   const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY, {
     variables: { subject: subject },
   });
+
+  const handleChange = async (id: number, status: boolean) => {
+    await updateQuestion(id, subject, status);
+  };
 
   useEffect(() => {
     console.log(account);
@@ -74,10 +79,16 @@ const ModeratorQuestion = (props: any) => {
                   <Td>{q.question_status}</Td>
                   <Td>
                     <div className="flex">
-                      <div className="m-1 p-1 rounded border border-black cursor-pointer">
+                      <div
+                        className="m-1 p-1 rounded border border-black cursor-pointer"
+                        onClick={() => handleChange(q.question_id, true)}
+                      >
                         Upvote
                       </div>
-                      <div className="m-1 p-1 rounded border border-black cursor-pointer">
+                      <div
+                        className="m-1 p-1 rounded border border-black cursor-pointer"
+                        onClick={() => handleChange(q.question_id, false)}
+                      >
                         Downvote
                       </div>
                     </div>
