@@ -18,7 +18,9 @@ const ApproveModerator = () => {
   const [address, setAddress] = useState<string>("");
 
   const handleSubmit = async () => {
+    console.log(address, subject);
     if (subject != "" && address != "") {
+      console.log(address, subject);
       const res = await approveModerator(address, subject);
       console.log(res);
     }
@@ -28,7 +30,7 @@ const ApproveModerator = () => {
     <FormControl className="flex justify-center flex-col w-1/2">
       {/* <FormHelperText>We will never share your email.</FormHelperText> */}
       <FormLabel>Subject</FormLabel>
-      <RadioGroup defaultValue="Blockchain">
+      <RadioGroup>
         <HStack spacing="24px">
           {subjects.map((s, index) => {
             return (

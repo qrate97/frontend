@@ -7,7 +7,7 @@ import { AuthContextProvider } from "@/context/authContext";
 
 export default function App({ Component, pageProps }: AppProps) {
   const client = new ApolloClient({
-    uri: "https://api.thegraph.com/subgraphs/name/aditipolkam/qrate",
+    uri: "https://api.thegraph.com/subgraphs/name/aditipolkam/qrate97",
     cache: new InMemoryCache(),
   });
   return (

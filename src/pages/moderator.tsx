@@ -7,8 +7,8 @@ import { useContext } from "react";
 import AuthContext from "../context/authContext";
 
 const QUERY = gql`
-  query myQuery($addr: String) {
-    moderators(where: { id: $addr }) {
+  query myQuery($addr: String!) {
+    moderators(where: { moderatorAddress: $addr }) {
       id
       moderatorAddress
       subject
@@ -22,6 +22,12 @@ const Moderator = () => {
   const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY, {
     variables: { moderatorAddress: account },
   });
+  const [subject, setSubject] = useState<string>("");
+
+  useEffect(() => {
+    console.log(data);
+    if (data) setSubject(data["questions"][0].subject);
+  }, []);
 
   useEffect(() => {
     console.log(account);
@@ -44,6 +50,7 @@ const Moderator = () => {
       <main className="w-full h-full  py-5 px-40 h-screen">
         <div className="shadow m-10">
           <ModeratorQuestion subject={"DSA"} />
+          {data && console.log(data)}
         </div>
       </main>
     </>
