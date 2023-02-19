@@ -10,17 +10,52 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-const ModeratorQuestion = () => {
+import { gql, useLazyQuery } from "@apollo/client";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "../context/authContext";
+
+const QUERY = gql`
+  query myQuery($subject: String!) {
+    questions(where: { question_subject: $subject }) {
+      id
+      question_id
+      question_question_string
+      question_subject
+      blockTimestamp
+      question_applicant
+      question_downvotes
+      question_incentives
+      question_status
+      question_subTopic
+      question_topic
+      question_upvotes
+      transactionHash
+    }
+  }
+`;
+const ModeratorQuestion = (props: any) => {
+  const { subject } = props;
+
+  const { account, connectWallet, authReady } = useContext(AuthContext);
+  const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY, {
+    variables: { subject: subject },
+  });
+
+  useEffect(() => {
+    console.log(account);
+    if (account != "") fetchQuery();
+  }, [fetchQuery, account, subject]);
+
+  if (loading) return <div>Loading...</div>;
+  console.log(data);
   return (
     <TableContainer>
       <Table variant="striped" colorScheme="teal">
-        <TableCaption>Questions submitted by you</TableCaption>
+        <TableCaption>Questions for subject {subject}</TableCaption>
         <Thead>
           <Tr>
             <Th isNumeric>Sr.</Th>
             <Th>Question</Th>
-            <Th>Subject</Th>
-            <Th>Subject</Th>
             <Th>Topic</Th>
             <Th>Subtopic</Th>
             <Th>Status</Th>
@@ -28,28 +63,20 @@ const ModeratorQuestion = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Td isNumeric>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>25.4</Td>
-            <Td></Td>
-          </Tr>
+          {data &&
+            data["questions"].map((q: any, index: number) => {
+              return (
+                <Tr key={index}>
+                  <Td isNumeric>{index}</Td>
+                  <Td>{q.question_question_string}</Td>
+                  <Td>{q.question_topic}</Td>
+                  <Td>{q.question_subTopic}</Td>
+                  <Td>{q.question_status}</Td>
+                  <Td>Buttons</Td>
+                </Tr>
+              );
+            })}
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>To convert</Th>
-            <Th>into</Th>
-            <Th isNumeric>multiply by</Th>
-            <Td>inches</Td>
-            <Td>millimetres (mm)</Td>
-            <Td isNumeric>25.4</Td>
-            <Td isNumeric>25.4</Td>
-          </Tr>
-        </Tfoot>
       </Table>
     </TableContainer>
   );
