@@ -72,7 +72,16 @@ const ModeratorQuestion = (props: any) => {
                   <Td>{q.question_topic}</Td>
                   <Td>{q.question_subTopic}</Td>
                   <Td>{q.question_status}</Td>
-                  <Td>Buttons</Td>
+                  <Td>
+                    <div className="flex">
+                      <div className="m-1 p-1 rounded border border-black cursor-pointer">
+                        Upvote
+                      </div>
+                      <div className="m-1 p-1 rounded border border-black cursor-pointer">
+                        Downvote
+                      </div>
+                    </div>
+                  </Td>
                 </Tr>
               );
             })}
