@@ -19,12 +19,17 @@ export default function Home() {
       </Head>
       <main className="w-full h-full  py-5 px-40">
         <div className="flex h-full items-center shadow my-5">
-          <div className="text-4xl text-center font-semibold w-1/2 p-5">
+          <div className="text-4xl text-center font-semibold w-1/2 p-5 justify-center flex flex-col items-center">
             <p>The largest question bank </p>
             <p>of crowd sourced questions</p>
-            <Link href={"/questions"}>
-              <Button className="mt-5">View Questions</Button>
-            </Link>
+            <div className="flex">
+              <Link href={"/questions"}>
+                <Button className="m-5">View Questions</Button>
+              </Link>
+              <Link href={"/moderator"}>
+                <Button className="m-5">Moderator</Button>
+              </Link>
+            </div>
           </div>
           <div className="flex justify-center p-5 w-1/2">
             <ContributorForm />
