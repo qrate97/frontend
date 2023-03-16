@@ -7,8 +7,8 @@ import { useContext } from "react";
 import AuthContext from "../context/authContext";
 
 const QUERY = gql`
-  query myQuery($addr: String!) {
-    moderators(where: { moderatorAddress: $addr }) {
+  query myQuery($moderatorAddress: String!) {
+    moderators(where: { moderatorAddress: $moderatorAddress }) {
       id
       moderatorAddress
       subject
@@ -25,8 +25,7 @@ const Moderator = () => {
   const [subject, setSubject] = useState<string>("");
 
   useEffect(() => {
-    console.log(data);
-    if (data) setSubject(data["questions"][0].subject);
+    if (data) setSubject(data["moderators"][0].subject);
   }, []);
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const Moderator = () => {
   }, [fetchQuery, account]);
 
   if (loading) return "Loading...";
-
+  console.log("subject", subject);
   return (
     <>
       <Head>
@@ -49,7 +48,7 @@ const Moderator = () => {
       </Head>
       <main className="w-full h-full  py-5 px-40 h-screen">
         <div className="shadow m-10">
-          <ModeratorQuestion subject={"DSA"} />
+          <ModeratorQuestion subject={subject} />
           {data && console.log(data)}
         </div>
       </main>
