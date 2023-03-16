@@ -26,7 +26,7 @@ const Moderator = () => {
 
   useEffect(() => {
     if (data) setSubject(data["moderators"][0].subject);
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     console.log(account);
