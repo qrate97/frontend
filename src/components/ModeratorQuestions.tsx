@@ -9,6 +9,7 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  Center,
 } from "@chakra-ui/react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
@@ -64,6 +65,8 @@ const ModeratorQuestion = (props: any) => {
             <Th>Topic</Th>
             <Th>Subtopic</Th>
             <Th>Status</Th>
+            <Th>Upvotes</Th>
+            <Th>DownVotes</Th>
             <Th>Action</Th>
           </Tr>
         </Thead>
@@ -76,7 +79,17 @@ const ModeratorQuestion = (props: any) => {
                   <Td>{q.question_question_string}</Td>
                   <Td>{q.question_topic}</Td>
                   <Td>{q.question_subTopic}</Td>
-                  <Td>{q.question_status}</Td>
+                  <Td>
+                    {q.question_status == 0 && <>PENDING</>}
+                    {q.question_status == 1 && <>ACCEPTED</>}
+                    {q.question_status == 2 && <>REJECTED</>}
+                  </Td>
+                  <Td>
+                    <Center>{q.question_upvotes}</Center>
+                  </Td>
+                  <Td>
+                    <Center>{q.question_downvotes}</Center>
+                  </Td>
                   <Td>
                     <div className="flex">
                       <div

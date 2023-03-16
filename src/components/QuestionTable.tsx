@@ -75,7 +75,11 @@ const QuestionTable = (props: any) => {
                   <Td>{q.question_question_string}</Td>
                   <Td>{q.question_topic}</Td>
                   <Td>{q.question_subTopic}</Td>
-                  <Td>{q.question_status}</Td>
+                  <Td>
+                    {q.question_status == 0 && <>PENDING</>}
+                    {q.question_status == 1 && <>ACCEPTED</>}
+                    {q.question_status == 2 && <>REJECTED</>}
+                  </Td>
                 </Tr>
               );
             })}
