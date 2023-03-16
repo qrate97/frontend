@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import { Button } from "@chakra-ui/react";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -21,7 +22,9 @@ export default function Home() {
           <div className="text-4xl text-center font-semibold w-1/2 p-5">
             <p>The largest question bank </p>
             <p>of crowd sourced questions</p>
-            <Button className="mt-5">Generate Question Paper</Button>
+            <Link href={"/questions"}>
+              <Button className="mt-5">View Questions</Button>
+            </Link>
           </div>
           <div className="flex justify-center p-5 w-1/2">
             <ContributorForm />

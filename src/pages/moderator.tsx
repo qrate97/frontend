@@ -25,7 +25,9 @@ const Moderator = () => {
   const [subject, setSubject] = useState<string>("");
 
   useEffect(() => {
-    if (data) setSubject(data["moderators"][0].subject);
+    if (data)
+      if (data.moderators.length >= 1)
+        setSubject(data["moderators"][0].subject);
   }, [data]);
 
   useEffect(() => {
