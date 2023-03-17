@@ -3,6 +3,7 @@ import Head from "next/head";
 import Navbar from "@/components/Navbar";
 import QuestionTable from "@/components/QuestionTable";
 import { Button, Select } from "@chakra-ui/react";
+import Link from "next/link";
 
 const Questions = () => {
   const [subject, setSubject] = useState<string>("");
@@ -31,7 +32,9 @@ const Questions = () => {
           <QuestionTable subject={subject} />
         </div>
         <div>
-          <Button>Generate Paper</Button>
+          <Link href={{pathname: "/api/getRandomQuestions", query: {"subject": subject}}}>
+            <Button>Generate Paper</Button>
+          </Link>
         </div>
       </main>
     </>
