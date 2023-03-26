@@ -1,15 +1,25 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Button } from "@chakra-ui/react";
-import { ethers } from "ethers";
 import { useContext } from "react";
 import AuthContext from "../../context/authContext";
 
 const ConnectButton = () => {
-  const [loading, setLoading] = useState(false);
-  const { account, connectWallet, authReady } = useContext(AuthContext);
+  const { account, connectWallet, authReady, network, switchNetwork } =
+    useContext(AuthContext);
 
-  console.log("connect button", account);
+  //network - Polygon Mumbai
+  if (network != "0x13881") {
+    return (
+      <Button
+        variant="solid"
+        className="text-black border border-black"
+        onClick={switchNetwork}
+      >
+        Switch To Mumbai
+      </Button>
+    );
+  }
   return (
     <Button
       variant="solid"
