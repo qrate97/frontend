@@ -1,5 +1,5 @@
 import React from "react";
-import ConnectButton from "./ConnectButton";
+import ConnectButton from "../ConnectButton";
 import Image from "next/image";
 import Link from "next/link";
 
