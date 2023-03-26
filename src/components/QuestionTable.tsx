@@ -12,12 +12,10 @@ import {
 } from "@chakra-ui/react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useContext, useEffect, useState } from "react";
-import AuthContext from "../context/authContext";
-import updateQuestion from "@/pages/api/updateQuestion";
 
 const QUERY = gql`
   query myQuery($subject: String!) {
-    questions(where: { question_subject: $subject }) {
+    questions(where: { question_subject: $subject, question_status: 1 }) {
       id
       question_id
       question_question_string
@@ -37,19 +35,13 @@ const QUERY = gql`
 const QuestionTable = (props: any) => {
   const { subject } = props;
 
-  const { account, connectWallet, authReady } = useContext(AuthContext);
   const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY, {
     variables: { subject: subject },
   });
 
-  const handleChange = async (id: number, status: boolean) => {
-    await updateQuestion(id, subject, status);
-  };
-
   useEffect(() => {
-    console.log(account);
-    if (account != "") fetchQuery();
-  }, [fetchQuery, account, subject]);
+    fetchQuery();
+  }, [fetchQuery, subject]);
 
   if (loading) return <div>Loading...</div>;
   console.log(data);
@@ -63,7 +55,6 @@ const QuestionTable = (props: any) => {
             <Th>Question</Th>
             <Th>Topic</Th>
             <Th>Subtopic</Th>
-            <Th>Status</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -75,11 +66,6 @@ const QuestionTable = (props: any) => {
                   <Td>{q.question_question_string}</Td>
                   <Td>{q.question_topic}</Td>
                   <Td>{q.question_subTopic}</Td>
-                  <Td>
-                    {q.question_status == 0 && <>PENDING</>}
-                    {q.question_status == 1 && <>ACCEPTED</>}
-                    {q.question_status == 2 && <>REJECTED</>}
-                  </Td>
                 </Tr>
               );
             })}

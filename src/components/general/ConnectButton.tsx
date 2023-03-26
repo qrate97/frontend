@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@chakra-ui/react";
 import { ethers } from "ethers";
 import { useContext } from "react";
-import AuthContext from "../context/authContext";
+import AuthContext from "../../context/authContext";
 
 const ConnectButton = () => {
   const [loading, setLoading] = useState(false);
