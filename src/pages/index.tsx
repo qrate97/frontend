@@ -1,4 +1,5 @@
 import ContributorForm from "@/components/ContributorForm";
+import CustomButton from "@/components/common/CustomButton";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -8,16 +9,12 @@ export default function Home() {
       <div className="text-4xl text-center font-semibold w-1/2 p-5 justify-center flex flex-col items-center">
         <p>The largest question bank </p>
         <p>of crowd sourced questions</p>
-        <div className="flex">
+        <div className="flex mt-10">
           <Link href={"/questions"}>
-            <Button className="m-5" colorScheme="pink" variant="solid">
-              View Questions
-            </Button>
+            <CustomButton variant="solid">View Questions</CustomButton>
           </Link>
           <Link href={"/moderator"}>
-            <Button className="m-5" colorScheme="pink" variant="outline">
-              Moderator
-            </Button>
+            <CustomButton variant="outline">Moderator</CustomButton>
           </Link>
         </div>
       </div>

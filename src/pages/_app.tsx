@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import Navbar from "@/components/header/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { AuthContextProvider } from "@/context/authContext";
 import MainLayout from "@/components/layout/MainLayout";
 
