@@ -90,6 +90,7 @@ export const AuthContextProvider = ({ children }: any) => {
                 },
               ],
             });
+            window.ethereum.on("chainChanged", handleChange);
           } catch (error) {
             console.log(error);
           }

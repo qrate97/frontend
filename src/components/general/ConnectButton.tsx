@@ -8,8 +8,7 @@ const ConnectButton = () => {
   const { account, connectWallet, authReady, network, switchNetwork } =
     useContext(AuthContext);
 
-  //network - Polygon Mumbai
-  if (network != "0x13881") {
+  if (account && network != "0x13881") {
     return (
       <Button
         variant="solid"
