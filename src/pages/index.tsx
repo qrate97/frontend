@@ -10,10 +10,14 @@ export default function Home() {
         <p>of crowd sourced questions</p>
         <div className="flex">
           <Link href={"/questions"}>
-            <Button className="m-5">View Questions</Button>
+            <Button className="m-5" colorScheme="pink" variant="solid">
+              View Questions
+            </Button>
           </Link>
           <Link href={"/moderator"}>
-            <Button className="m-5">Moderator</Button>
+            <Button className="m-5" colorScheme="pink" variant="outline">
+              Moderator
+            </Button>
           </Link>
         </div>
       </div>

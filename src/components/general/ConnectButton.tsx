@@ -21,17 +21,20 @@ const ConnectButton = () => {
   }
   return (
     <Button
-      variant="solid"
-      className="text-black border border-black"
+      variant="outline"
+      colorScheme="pink"
+      className="text-black"
       onClick={connectWallet}
     >
-      {account ? (
-        <a>
-          Wallet: {account.slice(0, 6)}...{account.slice(-4)}
-        </a>
-      ) : (
-        <a>Connect Wallet</a>
-      )}
+      <p className="text-black">
+        {account ? (
+          <a>
+            Wallet: {account.slice(0, 6)}...{account.slice(-4)}
+          </a>
+        ) : (
+          <a>Connect Wallet</a>
+        )}
+      </p>
     </Button>
   );
 };
