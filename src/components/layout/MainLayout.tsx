@@ -1,12 +1,24 @@
 import React from "react";
 import Footer from "../footer/Footer";
-import Header from "../header/Header";
+import Head from "next/head";
+import Navbar from "../header/Navbar";
 
 const MainLayout = ({ children }: { children: any }) => {
   return (
     <>
-      <Header />
-      <main className="w-full h-full py-5 px-40 h-screen">{children}</main>
+      <Head>
+        <title>Qrate</title>
+        <meta
+          name="description"
+          content="Automate question paper generation from a crowd-sourced question bank."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/qrate.png" />
+      </Head>
+      <main className="w-full py-10 lg:px-40 px-10">
+        <Navbar />
+        <main className="mt-20 min-h-4/6">{children}</main>
+      </main>
       <Footer />
     </>
   );

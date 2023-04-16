@@ -27,7 +27,7 @@ const ContributorForm = () => {
       addQuestion(question, subject, topic, subTopic);
   };
   return (
-    <FormControl className="flex justify-center flex-col">
+    <FormControl className="flex justify-center flex-col p-5">
       {/* <FormHelperText>We will never share your email.</FormHelperText> */}
       <FormLabel>Subject</FormLabel>
       <RadioGroup>
@@ -46,21 +46,21 @@ const ContributorForm = () => {
           })}
         </HStack>
       </RadioGroup>
-      <FormLabel>Question</FormLabel>
+      <FormLabel mt={5}>Question</FormLabel>
       <Input
         type="text"
         placeholder="Enter your question here"
         isRequired
         onChange={(e) => setQuestion(e.target.value)}
       />
-      <FormLabel>Topic</FormLabel>
+      <FormLabel mt={5}>Topic</FormLabel>
       <Input
         type="text"
         placeholder="Enter your question's topic'"
         isRequired
         onChange={(e) => setTopic(e.target.value)}
       />
-      <FormLabel>SubTopic</FormLabel>
+      <FormLabel mt={5}>SubTopic</FormLabel>
       <Input
         type="text"
         placeholder="Enter subtopic"
@@ -70,8 +70,9 @@ const ContributorForm = () => {
       <Button
         colorScheme="pink"
         variant="solid"
-        className="text-black border border-black"
+        className="text-black"
         onClick={handleSubmit}
+        mt={5}
       >
         Submit
       </Button>
