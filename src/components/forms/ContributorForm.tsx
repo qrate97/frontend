@@ -9,7 +9,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import AuthContext from "../context/authContext";
+import AuthContext from "../../context/authContext";
 import addQuestion from "@/pages/api/addQuestion";
 import { subjects } from "@/data";
 

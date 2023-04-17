@@ -1,4 +1,4 @@
-import ContributorForm from "@/components/ContributorForm";
+import ContributorForm from "@/components/forms/ContributorForm";
 import CustomButton from "@/components/common/CustomButton";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";

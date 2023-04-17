@@ -3,6 +3,7 @@ import ModeratorQuestion from "@/components/ModeratorQuestions";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useContext } from "react";
 import AuthContext from "../context/authContext";
+import ModeratorForm from "@/components/forms/ModeratorForm";
 
 const QUERY = gql`
   query myQuery($moderatorAddress: String!) {
@@ -34,12 +35,12 @@ const Moderator = () => {
   }, [fetchQuery, account]);
 
   if (loading) return "Loading...";
-  console.log("subject", subject);
+  if (!subject) return <ModeratorForm />;
+  console.log(account);
   return (
     <>
       <div className="shadow m-10">
         <ModeratorQuestion subject={subject} />
-        {data && console.log(data)}
       </div>
     </>
   );
