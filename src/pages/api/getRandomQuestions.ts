@@ -55,7 +55,7 @@ export default async function handler(
         body: JSON.stringify({
           query: `
           {
-              questions(where: {subject: "${subject}"}) { # , status: 1
+              questions(where: {subject: "${subject}", topic: "${topic}"}) { # , status: 1
                 id
                 quesId
                 questionString
@@ -110,8 +110,12 @@ export default async function handler(
       res.status(400).json({ error: "No questions found" });
       return;
     }
-    console.log(`getting ${count} questions for topic: ${topic}`);
+    console.log(
+      `found ${data.length} questions for topic: ${topic} and subject: ${subject}`
+    );
+    console.log(`getting ${count} questions for topic: ${topic} randomly`);
     const questions_to_find = Math.min(count, data.length);
+    console.log(`can only find ${data.length} questions`);
     for (let i = 0; i < questions_to_find; i++) {
       const random_index = Math.floor(Math.random() * data.length);
       if (random_questions_pushed.includes(random_index)) {
