@@ -13,11 +13,12 @@ export default async function handler(
   req: QuestionPaperCreationRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     res.status(400).json({ error: "Invalid method" });
     return;
   }
   const { subject, max_questions, question_filters } = req.body;
+  console.log(req.body);
 
   if (!subject || subject === "undefined" || typeof subject !== "string") {
     res.status(400).json({ error: "Invalid subject" });
@@ -27,7 +28,20 @@ export default async function handler(
     res.status(400).json({ error: "Invalid max_questions" });
     return;
   }
-  const questions_to_return = [];
+  const questions_to_return: {
+    id: number;
+    quesId: number;
+    questionString: string;
+    subject: string;
+    blockTimestamp: number;
+    applicant: string;
+    downvotes: number;
+    status: 0 | 1;
+    subTopic: string;
+    topic: string;
+    upvotes: number;
+    transactionHash: string;
+  }[] = [];
   for (const filter of question_filters) {
     const { topic, count } = filter;
 
@@ -39,21 +53,20 @@ export default async function handler(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: gql`
+          query: `
           {
-              questions(where: {question_subject: "${subject}", question_status: 1}) {
+              questions(where: {subject: "${subject}"}) { # , status: 1
                 id
-                question_id
-                question_question_string
-                question_subject
+                quesId
+                questionString
+                subject
                 blockTimestamp
-                question_applicant
-                question_downvotes
-                question_incentives
-                question_status
-                question_subTopic
-                question_topic
-                question_upvotes
+                applicant
+                downvotes
+                status
+                subTopic
+                topic
+                upvotes
                 transactionHash
               }
             }`,
@@ -64,16 +77,16 @@ export default async function handler(
       data: {
         questions: {
           id: number;
-          question_id: number;
-          question_question_string: string;
-          question_subject: string;
+          quesId: number;
+          questionString: string;
+          subject: string;
           blockTimestamp: number;
-          question_applicant: string;
-          question_downvotes: number;
-          question_status: 0 | 1;
-          question_subTopic: string;
-          question_topic: string;
-          question_upvotes: number;
+          applicant: string;
+          downvotes: number;
+          status: 0 | 1;
+          subTopic: string;
+          topic: string;
+          upvotes: number;
           transactionHash: string;
         }[];
       };
@@ -114,11 +127,11 @@ export default async function handler(
   // create a csv file
   let csv = questions_to_return
     .map((question) => {
-      return `${question.question_question_string}, ${question.question_subject}, ${question.question_topic}, ${question.question_subTopic}, ${question.question_applicant}, ${question.question_incentives}, ${question.question_upvotes}, ${question.question_downvotes}, ${question.question_status}, ${question.blockTimestamp}, ${question.transactionHash}, ${question.question_id}`;
+      return `${question.questionString}, ${question.subject}, ${question.topic}, ${question.subTopic}, ${question.applicant}, ${question.upvotes}, ${question.downvotes}, ${question.status}, ${question.blockTimestamp}, ${question.transactionHash}, ${question.quesId}`;
     })
     .join("\n");
   // add headers to csv string
-  csv = `question_question_string, question_subject, question_topic, question_subTopic, question_applicant, question_incentives, question_upvotes, question_downvotes, question_status, blockTimestamp, transactionHash, question_id
+  csv = `questionString, subject, topic, subTopic, applicant, upvotes, downvotes, status, blockTimestamp, transactionHash, quesId
 ${csv}`;
   // set the headers
   res.setHeader("Content-Type", "text/csv");

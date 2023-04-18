@@ -65,7 +65,7 @@ const QuestionTable = (props: any) => {
                   {data["questions"].map((q: any, index: number) => {
                     return (
                       <Tr key={q.quesId}>
-                        <Td isNumeric>{index}</Td>
+                        <Td isNumeric>{index + 1}</Td>
                         <Td>{q.questionString}</Td>
                         <Td>{q.topic}</Td>
                         <Td>{q.subTopic}</Td>
@@ -75,16 +75,6 @@ const QuestionTable = (props: any) => {
                 </Tbody>
               </Table>
             </TableContainer>
-            <div>
-              <Link
-                href={{
-                  pathname: "/api/getRandomQuestions",
-                  query: { subject: subject },
-                }}
-              >
-                <Button>Generate Paper</Button>
-              </Link>
-            </div>
           </>
         )}
       </>

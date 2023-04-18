@@ -21,20 +21,18 @@ export default async function handler(
       body: JSON.stringify({
         query: `
           {
-            questions(where: {question_subject: "${subject}", question_status: 1}) {
-              question_topic
+            questions(where: {subject: "${subject}"}) { # , status: 1
+              topic
             }
           }
           `,
       }),
     }
   );
-  const json_results: { data: { questions: { question_topic: string }[] } } =
+  const json_results: { data: { questions: { topic: string }[] } } =
     await questions.json();
   const results = json_results;
-  const topics = results.data.questions.map(
-    (question) => question.question_topic
-  );
+  const topics = results.data.questions.map((question) => question.topic);
   const uniqueTopics: string[] = [];
   for (const topic of topics) {
     if (!uniqueTopics.includes(topic)) {
