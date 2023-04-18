@@ -10,7 +10,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import approveModerator from "@/pages/api/addModerator";
+import approveModerator from "@/pages/api/approveModerator";
 import { subjects } from "@/data";
 
 const ApproveModerator = () => {
