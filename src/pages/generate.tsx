@@ -55,7 +55,9 @@ const Generate = () => {
     if (
       filters.reduce((acc, filter) => acc + filter.count, 0) +
         parseInt(e.target.value) >
-      maxQuestions
+        maxQuestions ||
+      parseInt(e.target.value) <= 0 ||
+      isNaN(parseInt(e.target.value))
     ) {
       setAddButtonDisabled(true);
     } else {
@@ -68,6 +70,11 @@ const Generate = () => {
     // set filters to a new array with the new filter added and set topic and count to empty string
     // the new filters array should have unique topics and count should be greater than 0 else alert the user
     // the sum of counts of all filters should be less than or equal to maxQuestions
+    // dont add if count is Nan
+    if (isNaN(count)) {
+      alert("Please enter a valid count");
+      return;
+    }
     if (
       filters.reduce((acc, filter) => acc + filter.count, 0) + count >
       maxQuestions
@@ -90,6 +97,13 @@ const Generate = () => {
       });
       setTopic("");
       setCount(1);
+      // disable add button if the sum of counts of all filters is equal to maxQuestions
+      if (
+        prev.reduce((acc, filter) => acc + filter.count, 0) + count ===
+        maxQuestions
+      ) {
+        setAddButtonDisabled(true);
+      }
 
       return [...prev, { topic: topic, count: count }];
     });
@@ -214,6 +228,11 @@ const Generate = () => {
         >
           Questions for this topic:
         </span>
+        {addButtonDisabled ? (
+          <span style={{ flex: 1, textAlign: "left", color: "red" }}>
+            Max Questions reached
+          </span>
+        ) : null}
         <Input
           flex={1}
           type="number"
