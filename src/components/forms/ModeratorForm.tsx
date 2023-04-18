@@ -28,8 +28,8 @@ const ModeratorForm = () => {
   };
 
   const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const files = Array.from(e.target.files);
-    setFile(files);
+    //const files = Array.from();
+    setFile(e.target.files);
   };
   return (
     <FormControl className="flex justify-center flex-col p-5">
