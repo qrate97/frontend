@@ -13,11 +13,12 @@ export default async function handler(
   req: QuestionPaperCreationRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     res.status(400).json({ error: "Invalid method" });
     return;
   }
   const { subject, max_questions, question_filters } = req.body;
+  console.log(req.body);
 
   if (!subject || subject === "undefined" || typeof subject !== "string") {
     res.status(400).json({ error: "Invalid subject" });
@@ -39,9 +40,9 @@ export default async function handler(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: gql`
+          query: `
           {
-              questions(where: {question_subject: "${subject}", question_status: 1}) {
+              questions(where: {question_subject: "${subject}"}) { # , question_status: 1
                 id
                 question_id
                 question_question_string

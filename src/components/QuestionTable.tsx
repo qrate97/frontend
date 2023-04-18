@@ -62,7 +62,7 @@ const QuestionTable = (props: any) => {
             data["questions"].map((q: any, index: number) => {
               return (
                 <Tr key={index}>
-                  <Td isNumeric>{index}</Td>
+                  <Td isNumeric>{index + 1}</Td>
                   <Td>{q.question_question_string}</Td>
                   <Td>{q.question_topic}</Td>
                   <Td>{q.question_subTopic}</Td>

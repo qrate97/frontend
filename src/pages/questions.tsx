@@ -26,7 +26,9 @@ const Questions = () => {
             query: { subject: subject },
           }}
         >
-          <Button>Generate Paper</Button>
+          <Button>
+            <Link href="/generate">Generate Question Paper</Link>
+          </Button>
         </Link>
       </div>
     </>

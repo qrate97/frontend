@@ -21,7 +21,7 @@ export default async function handler(
       body: JSON.stringify({
         query: `
           {
-            questions(where: {question_subject: "${subject}", question_status: 1}) {
+            questions(where: {question_subject: "${subject}"}) { # , question_status: 1
               question_topic
             }
           }
