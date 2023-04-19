@@ -1,8 +1,7 @@
 import { ethers } from 'ethers';
 import { contractAddress, abi } from '@/utils';
 
-export default async function approveModerator(address:string, subject:string){
-    console.log(address, subject)
+export default async function changeModeratorStatus(address:string){
     try{
       const { ethereum } = window;
       if(ethereum){
@@ -10,7 +9,7 @@ export default async function approveModerator(address:string, subject:string){
         const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, abi, signer);
         //console.log(contract)
-        let tx = await contract.approveModerator(address, subject);
+        let tx = await contract.changeModeratorStatus(address);
         tx.wait();
         console.log(tx);
         return true

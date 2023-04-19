@@ -3,7 +3,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -11,24 +10,22 @@ import {
   TableContainer,
 } from "@chakra-ui/react";
 import { gql, useLazyQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Button } from "@chakra-ui/react";
+import Link from "next/link";
 
 const QUERY = gql`
   query myQuery($subject: String!) {
-    questions(where: { question_subject: $subject, question_status: 1 }) {
-      id
-      question_id
-      question_question_string
-      question_subject
-      blockTimestamp
-      question_applicant
-      question_downvotes
-      question_incentives
-      question_status
-      question_subTopic
-      question_topic
-      question_upvotes
-      transactionHash
+    questions(
+      orderBy: blockTimestamp
+      orderDirection: desc
+      where: { question_subject: $subject, question_status: 1 }
+    ) {
+      quesId
+      questionString
+      subject
+      subTopic
+      topic
     }
   }
 `;
@@ -44,35 +41,48 @@ const QuestionTable = (props: any) => {
   }, [fetchQuery, subject]);
 
   if (loading) return <div>Loading...</div>;
-  console.log(data);
-  return (
-    <TableContainer>
-      <Table variant="striped" colorScheme="teal">
-        <TableCaption>Questions for subject {subject}</TableCaption>
-        <Thead>
-          <Tr>
-            <Th isNumeric>Sr.</Th>
-            <Th>Question</Th>
-            <Th>Topic</Th>
-            <Th>Subtopic</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data &&
-            data["questions"].map((q: any, index: number) => {
-              return (
-                <Tr key={index}>
-                  <Td isNumeric>{index}</Td>
-                  <Td>{q.question_question_string}</Td>
-                  <Td>{q.question_topic}</Td>
-                  <Td>{q.question_subTopic}</Td>
-                </Tr>
-              );
-            })}
-        </Tbody>
-      </Table>
-    </TableContainer>
-  );
+  if (data)
+    return (
+      <>
+        <TableContainer>
+          <Table variant="striped" colorScheme="teal">
+            <TableCaption>Questions for subject {subject}</TableCaption>
+            <Thead>
+              <Tr>
+                <Th isNumeric>Sr.</Th>
+                <Th>Question</Th>
+                <Th>Topic</Th>
+                <Th>Subtopic</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {data &&
+                data["questions"].map((q: any, index: number) => {
+                  return (
+                    <Tr key={index}>
+                      <Td isNumeric>{index}</Td>
+                      <Td>{q.question_question_string}</Td>
+                      <Td>{q.question_topic}</Td>
+                      <Td>{q.question_subTopic}</Td>
+                    </Tr>
+                  );
+                })}
+            </Tbody>
+          </Table>
+        </TableContainer>
+        <div>
+          <Link
+            href={{
+              pathname: "/api/getRandomQuestions",
+              query: { subject: subject },
+            }}
+          >
+            <Button>Generate Paper</Button>
+          </Link>
+        </div>
+      </>
+    );
+  return <>No questions present for subject {subject}</>;
 };
 
 export default QuestionTable;

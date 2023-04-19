@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -10,15 +10,28 @@ import {
 } from "@chakra-ui/react";
 import { useContext } from "react";
 import AuthContext from "../../context/authContext";
-import { subjects } from "@/data";
 import addModerator from "@/pages/api/addModerator";
 import uploadWithWeb3 from "@/helpers/uploadWithWeb3";
+import { gql, useLazyQuery } from "@apollo/client";
+const QUERY = gql`
+  query myQuery {
+    subjects {
+      id
+      subject_name
+    }
+  }
+`;
 
 const ModeratorForm = () => {
   const [subject, setSubject] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [file, setFile] = useState<any>();
   const { account, authReady } = useContext(AuthContext);
+  const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY);
+
+  useEffect(() => {
+    fetchQuery();
+  }, [fetchQuery]);
 
   const handleSubmit = async () => {
     if (name != "" && subject != "" && file != null && authReady) {
@@ -43,18 +56,19 @@ const ModeratorForm = () => {
       <FormLabel mt={5}>Subject</FormLabel>
       <RadioGroup>
         <HStack spacing="24px">
-          {subjects.map((s, index) => {
-            return (
-              <Radio
-                value={s}
-                checked={subject === s}
-                key={index}
-                onChange={(e) => setSubject(e.target.value)}
-              >
-                {s}
-              </Radio>
-            );
-          })}
+          {data &&
+            data["subjects"].map((s: any, index: number) => {
+              return (
+                <Radio
+                  value={s}
+                  checked={subject === s}
+                  key={index}
+                  onChange={(e) => setSubject(e.target.value)}
+                >
+                  {s.subject_name}
+                </Radio>
+              );
+            })}
         </HStack>
       </RadioGroup>
 

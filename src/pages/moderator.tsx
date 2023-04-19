@@ -9,9 +9,7 @@ const QUERY = gql`
   query myQuery($moderatorAddress: String!) {
     moderators(where: { moderatorAddress: $moderatorAddress }) {
       id
-      moderatorAddress
       subject
-      approved
     }
   }
 `;
@@ -36,13 +34,11 @@ const Moderator = () => {
 
   if (loading) return "Loading...";
   if (!subject) return <ModeratorForm />;
-  console.log(account);
+
   return (
-    <>
-      <div className="shadow m-10">
-        <ModeratorQuestion subject={subject} />
-      </div>
-    </>
+    <div className="shadow m-10">
+      <ModeratorQuestion subject={subject} />
+    </div>
   );
 };
 

@@ -3,7 +3,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -12,26 +11,23 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { gql, useLazyQuery } from "@apollo/client";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import AuthContext from "../context/authContext";
 import updateQuestion from "@/pages/api/updateQuestion";
 
 const QUERY = gql`
   query myQuery($subject: String!) {
-    questions(where: { question_subject: $subject }) {
-      id
-      question_id
-      question_question_string
-      question_subject
+    questions(where: { subject: $subject }) {
+      quesId
+      questionString
+      subject
       blockTimestamp
-      question_applicant
-      question_downvotes
-      question_incentives
-      question_status
-      question_subTopic
-      question_topic
-      question_upvotes
-      transactionHash
+      applicant
+      downvotes
+      status
+      subTopic
+      topic
+      upvotes
     }
   }
 `;
@@ -44,16 +40,15 @@ const ModeratorQuestion = (props: any) => {
   });
 
   const handleChange = async (id: number, status: boolean) => {
-    await updateQuestion(id, subject, status);
+    await updateQuestion(id, status);
   };
 
   useEffect(() => {
-    console.log(account);
     if (account != "") fetchQuery();
   }, [fetchQuery, account, subject]);
 
   if (loading) return <div>Loading...</div>;
-  console.log(data);
+
   return (
     <TableContainer>
       <Table variant="striped" colorScheme="teal">
@@ -76,31 +71,31 @@ const ModeratorQuestion = (props: any) => {
               return (
                 <Tr key={index}>
                   <Td isNumeric>{index}</Td>
-                  <Td>{q.question_question_string}</Td>
-                  <Td>{q.question_topic}</Td>
-                  <Td>{q.question_subTopic}</Td>
+                  <Td>{q.questionString}</Td>
+                  <Td>{q.topic}</Td>
+                  <Td>{q.subTopic}</Td>
                   <Td>
-                    {q.question_status == 0 && <>PENDING</>}
-                    {q.question_status == 1 && <>ACCEPTED</>}
-                    {q.question_status == 2 && <>REJECTED</>}
+                    {q.status == 0 && <>PENDING</>}
+                    {q.status == 1 && <>ACCEPTED</>}
+                    {q.status == 2 && <>REJECTED</>}
                   </Td>
                   <Td>
-                    <Center>{q.question_upvotes}</Center>
+                    <Center>{q.upvotes}</Center>
                   </Td>
                   <Td>
-                    <Center>{q.question_downvotes}</Center>
+                    <Center>{q.downvotes}</Center>
                   </Td>
                   <Td>
                     <div className="flex">
                       <div
                         className="m-1 p-1 rounded border border-black cursor-pointer"
-                        onClick={() => handleChange(q.question_id, true)}
+                        onClick={() => handleChange(q.quesId, true)}
                       >
                         Upvote
                       </div>
                       <div
                         className="m-1 p-1 rounded border border-black cursor-pointer"
-                        onClick={() => handleChange(q.question_id, false)}
+                        onClick={() => handleChange(q.quesId, false)}
                       >
                         Downvote
                       </div>

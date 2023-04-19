@@ -1,9 +1,6 @@
-const contractAddress = "0xdd38864962680d17ec41d09164a7cd5c7e2a1fc4" //new
-//"0x42841ee00b21bcf92afb4280e47a60e15aa42fc2"
-//"0xa2DBeE5F016Ee1e749d9aAA11c232EEC1e1418b3"
-// "0x365dC45bf81ef6Ce719a373c4461111939CF83c6"
+const contractAddress = "0x3ea8947CC7ED77392E55791Ff80D99bF90b20C6d"
 
-const abi = [
+const abi =[
 	{
 		"inputs": [
 			{
@@ -100,6 +97,12 @@ const abi = [
 		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "moderatorAddress",
+				"type": "address"
+			},
+			{
 				"components": [
 					{
 						"internalType": "string",
@@ -124,7 +127,7 @@ const abi = [
 				],
 				"indexed": false,
 				"internalType": "struct Qrate.ModeratorStruct",
-				"name": "",
+				"name": "moderator",
 				"type": "tuple"
 			}
 		],
@@ -135,12 +138,19 @@ const abi = [
 		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "quesId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
 				"components": [
-					{
-						"internalType": "uint256",
-						"name": "id",
-						"type": "uint256"
-					},
 					{
 						"internalType": "string",
 						"name": "questionString",
@@ -177,11 +187,6 @@ const abi = [
 						"type": "address"
 					},
 					{
-						"internalType": "address[]",
-						"name": "voters",
-						"type": "address[]"
-					},
-					{
 						"internalType": "enum Qrate.QuestionStatus",
 						"name": "status",
 						"type": "uint8"
@@ -189,7 +194,7 @@ const abi = [
 				],
 				"indexed": false,
 				"internalType": "struct Qrate.QuestionStruct",
-				"name": "",
+				"name": "question",
 				"type": "tuple"
 			}
 		],
@@ -202,7 +207,7 @@ const abi = [
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "",
+				"name": "subject",
 				"type": "string"
 			}
 		],
@@ -303,11 +308,6 @@ const abi = [
 		],
 		"name": "questions",
 		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
 			{
 				"internalType": "string",
 				"name": "questionString",

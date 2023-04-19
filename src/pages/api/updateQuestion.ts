@@ -1,8 +1,8 @@
 import { ethers } from 'ethers';
 import { contractAddress, abi } from '@/utils';
 
-export default async function updateQuestion(id: number, subject:string, status:boolean){
-    console.log(id, subject, status)
+export default async function updateQuestion(id: number, status:boolean){
+ 
     try{
       const { ethereum } = window;
       if(ethereum){
@@ -10,7 +10,7 @@ export default async function updateQuestion(id: number, subject:string, status:
         const signer = await provider.getSigner();
         const contract = new ethers.Contract(contractAddress, abi, signer);
         //console.log(contract)
-        let tx = await contract.updateQuestion(id, subject, status);
+        let tx = await contract.updateQuestion(id, status);
         tx.wait();
         console.log(tx);
         return true

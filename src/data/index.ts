@@ -1,1 +1,0 @@
-export const subjects = ["DSA", "Blockchain", "Python", "RDBMS"];

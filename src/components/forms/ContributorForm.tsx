@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -11,7 +11,15 @@ import {
 import { useContext } from "react";
 import AuthContext from "../../context/authContext";
 import addQuestion from "@/pages/api/addQuestion";
-import { subjects } from "@/data";
+import { gql, useLazyQuery } from "@apollo/client";
+const QUERY = gql`
+  query myQuery {
+    subjects {
+      id
+      subject_name
+    }
+  }
+`;
 
 const ContributorForm = () => {
   const [subject, setSubject] = useState<string>("");
@@ -19,6 +27,12 @@ const ContributorForm = () => {
   const [topic, setTopic] = useState<string>("");
   const [subTopic, setSubTopic] = useState<string>("");
   const { account, authReady } = useContext(AuthContext);
+
+  const [fetchQuery, { called, loading, data }] = useLazyQuery(QUERY);
+
+  useEffect(() => {
+    fetchQuery();
+  }, [fetchQuery]);
 
   const handleSubmit = () => {
     console.log("in submit");
@@ -28,22 +42,22 @@ const ContributorForm = () => {
   };
   return (
     <FormControl className="flex justify-center flex-col p-5">
-      {/* <FormHelperText>We will never share your email.</FormHelperText> */}
       <FormLabel>Subject</FormLabel>
       <RadioGroup>
         <HStack spacing="24px">
-          {subjects.map((s, index) => {
-            return (
-              <Radio
-                value={s}
-                checked={subject === s}
-                key={index}
-                onChange={(e) => setSubject(e.target.value)}
-              >
-                {s}
-              </Radio>
-            );
-          })}
+          {data &&
+            data["subjects"].map((s: any, index: number) => {
+              return (
+                <Radio
+                  value={s}
+                  checked={subject === s}
+                  key={index}
+                  onChange={(e) => setSubject(e.target.value)}
+                >
+                  {s.subject_name}
+                </Radio>
+              );
+            })}
         </HStack>
       </RadioGroup>
       <FormLabel mt={5}>Question</FormLabel>
