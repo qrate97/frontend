@@ -82,7 +82,8 @@ const QuestionTable = (props: any) => {
         </div>
       </>
     );
-  return <>No questions present for subject {subject}</>;
+  else if (!data) return <>No questions present for subject {subject}</>;
+  else return <>Select a subject from the above drop down</>;
 };
 
 export default QuestionTable;

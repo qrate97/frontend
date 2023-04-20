@@ -17,7 +17,7 @@ const MainLayout = ({ children }: { children: any }) => {
       </Head>
       <main className="w-full py-10 lg:px-40 px-10">
         <Navbar />
-        <main className="mt-20 min-h-4/6">{children}</main>
+        <div className="mt-20 flex-grow">{children}</div>
       </main>
       <Footer />
     </>
