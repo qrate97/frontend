@@ -1,5 +1,5 @@
 const contractAddress = "0x3ea8947CC7ED77392E55791Ff80D99bF90b20C6d"
-
+const admin = "0xd4c62ea11760c44c20c6cc48d4d5207bef43c3cb"
 const abi =[
 	{
 		"inputs": [
@@ -409,4 +409,4 @@ const abi =[
 		"type": "function"
 	}
 ]
-export {abi, contractAddress};
+export {abi, contractAddress, admin};
