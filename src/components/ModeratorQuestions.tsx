@@ -49,7 +49,7 @@ const ModeratorQuestion = (props: any) => {
 
   if (account == "") return <div>Please connect your wallet</div>;
   if (loading) return <div>Loading...</div>;
-  if (data["questions"].length > 0)
+  if (data)
     return (
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
@@ -71,7 +71,7 @@ const ModeratorQuestion = (props: any) => {
               data["questions"].map((q: any, index: number) => {
                 return (
                   <Tr key={index}>
-                    <Td isNumeric>{index}</Td>
+                    <Td isNumeric>{index + 1}</Td>
                     <Td>{q.questionString}</Td>
                     <Td>{q.topic}</Td>
                     <Td>{q.subTopic}</Td>

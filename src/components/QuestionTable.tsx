@@ -19,7 +19,7 @@ const QUERY = gql`
     questions(
       orderBy: blockTimestamp
       orderDirection: desc
-      where: { question_subject: $subject, question_status: 1 }
+      where: { subject: $subject, status: 0 }
     ) {
       quesId
       questionString
@@ -42,48 +42,49 @@ const QuestionTable = (props: any) => {
 
   if (loading) return <div>Loading...</div>;
   if (data)
-    return (
-      <>
-        <TableContainer>
-          <Table variant="striped" colorScheme="teal">
-            <TableCaption>Questions for subject {subject}</TableCaption>
-            <Thead>
-              <Tr>
-                <Th isNumeric>Sr.</Th>
-                <Th>Question</Th>
-                <Th>Topic</Th>
-                <Th>Subtopic</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data &&
-                data["questions"].map((q: any, index: number) => {
-                  return (
-                    <Tr key={index}>
-                      <Td isNumeric>{index}</Td>
-                      <Td>{q.question_question_string}</Td>
-                      <Td>{q.question_topic}</Td>
-                      <Td>{q.question_subTopic}</Td>
-                    </Tr>
-                  );
-                })}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <div>
-          <Link
-            href={{
-              pathname: "/api/getRandomQuestions",
-              query: { subject: subject },
-            }}
-          >
-            <Button>Generate Paper</Button>
-          </Link>
-        </div>
-      </>
-    );
-  else if (!data) return <>No questions present for subject {subject}</>;
-  else return <>Select a subject from the above drop down</>;
+    if (data["questions"].length > 0)
+      return (
+        <>
+          <TableContainer>
+            <Table variant="striped" colorScheme="teal">
+              <TableCaption>Questions for subject {subject}</TableCaption>
+              <Thead>
+                <Tr>
+                  <Th isNumeric>Sr.</Th>
+                  <Th>Question</Th>
+                  <Th>Topic</Th>
+                  <Th>Subtopic</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {data &&
+                  data["questions"].map((q: any, index: number) => {
+                    return (
+                      <Tr key={q.quesId}>
+                        <Td isNumeric>{index}</Td>
+                        <Td>{q.questionString}</Td>
+                        <Td>{q.topic}</Td>
+                        <Td>{q.subTopic}</Td>
+                      </Tr>
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+          <div>
+            <Link
+              href={{
+                pathname: "/api/getRandomQuestions",
+                query: { subject: subject },
+              }}
+            >
+              <Button>Generate Paper</Button>
+            </Link>
+          </div>
+        </>
+      );
+    else if (!data) return <>No questions present for subject {subject}</>;
+    else return <>Select a subject from the above drop down</>;
 };
 
 export default QuestionTable;
