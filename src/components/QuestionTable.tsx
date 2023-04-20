@@ -40,25 +40,29 @@ const QuestionTable = (props: any) => {
     fetchQuery();
   }, [fetchQuery, subject]);
 
+  if (subject == "") return <>Select a subject from the above drop down</>;
   if (loading) return <div>Loading...</div>;
   if (data)
-    if (data["questions"].length > 0)
-      return (
-        <>
-          <TableContainer>
-            <Table variant="striped" colorScheme="teal">
-              <TableCaption>Questions for subject {subject}</TableCaption>
-              <Thead>
-                <Tr>
-                  <Th isNumeric>Sr.</Th>
-                  <Th>Question</Th>
-                  <Th>Topic</Th>
-                  <Th>Subtopic</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {data &&
-                  data["questions"].map((q: any, index: number) => {
+    return (
+      <>
+        {data["questions"].length == 0 && (
+          <div>No questions present for subject {subject}</div>
+        )}
+        {data["questions"].length > 0 && (
+          <>
+            <TableContainer>
+              <Table variant="striped" colorScheme="teal">
+                <TableCaption>Questions for subject {subject}</TableCaption>
+                <Thead>
+                  <Tr>
+                    <Th isNumeric>Sr.</Th>
+                    <Th>Question</Th>
+                    <Th>Topic</Th>
+                    <Th>Subtopic</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {data["questions"].map((q: any, index: number) => {
                     return (
                       <Tr key={q.quesId}>
                         <Td isNumeric>{index}</Td>
@@ -68,23 +72,27 @@ const QuestionTable = (props: any) => {
                       </Tr>
                     );
                   })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <div>
-            <Link
-              href={{
-                pathname: "/api/getRandomQuestions",
-                query: { subject: subject },
-              }}
-            >
-              <Button>Generate Paper</Button>
-            </Link>
-          </div>
-        </>
-      );
-    else if (!data) return <>No questions present for subject {subject}</>;
-    else return <>Select a subject from the above drop down</>;
+                </Tbody>
+              </Table>
+            </TableContainer>
+            <div>
+              <Link
+                href={{
+                  pathname: "/api/getRandomQuestions",
+                  query: { subject: subject },
+                }}
+              >
+                <Button>Generate Paper</Button>
+              </Link>
+            </div>
+          </>
+        )}
+      </>
+    );
+
+  if (!data) return <>No questions present for subject {subject}</>;
+
+  return <></>;
 };
 
 export default QuestionTable;
