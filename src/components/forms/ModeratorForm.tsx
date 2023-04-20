@@ -60,8 +60,8 @@ const ModeratorForm = () => {
             data["subjects"].map((s: any, index: number) => {
               return (
                 <Radio
-                  value={s}
-                  checked={subject === s}
+                  value={s.subject_name}
+                  checked={subject === s.subject_name}
                   key={index}
                   onChange={(e) => setSubject(e.target.value)}
                 >
