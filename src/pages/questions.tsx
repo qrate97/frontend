@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import QuestionTable from "@/components/QuestionTable";
-import { Select } from "@chakra-ui/react";
+import { Button, Select } from "@chakra-ui/react";
 import { gql, useLazyQuery } from "@apollo/client";
+import Link from "next/link";
 const QUERY = gql`
   query myQuery {
     subjects {
@@ -34,6 +35,11 @@ const Questions = () => {
       </Select>
       <div className="my-10">
         <QuestionTable subject={subject} />
+      </div>
+      <div>
+        <Button>
+          <Link href="/generate">Generate Question Paper</Link>
+        </Button>
       </div>
     </>
   );
