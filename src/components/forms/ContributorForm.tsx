@@ -16,7 +16,7 @@ const QUERY = gql`
   query myQuery {
     subjects {
       id
-      subject_name
+      name
     }
   }
 `;
@@ -49,12 +49,12 @@ const ContributorForm = () => {
             data["subjects"].map((s: any, index: number) => {
               return (
                 <Radio
-                  value={s.subject_name}
-                  checked={subject === s.subject_name}
+                  value={s.name}
+                  checked={subject === s.name}
                   key={index}
                   onChange={(e) => setSubject(e.target.value)}
                 >
-                  {s.subject_name}
+                  {s.name}
                 </Radio>
               );
             })}
