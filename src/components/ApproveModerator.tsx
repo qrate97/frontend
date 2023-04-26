@@ -42,7 +42,10 @@ const ApproveModerator = ({ moderators }: { moderators: ModeratorType[] }) => {
                 <Td>{moderator.subject}</Td>
                 <Td>{moderator.moderatorAddress}</Td>
                 <Td>
-                  <Link href={`ipfs://${moderator.proof}`} target="_blank">
+                  <Link
+                    href={`https://w3s.link/ipfs/${moderator.proof}`}
+                    target="_blank"
+                  >
                     <AiOutlineEye size={24} color={"blue"} />
                   </Link>
                 </Td>
