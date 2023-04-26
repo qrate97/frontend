@@ -7,7 +7,7 @@ const QUERY = gql`
   query myQuery {
     subjects {
       id
-      subject_name
+      name
     }
   }
 `;
@@ -28,8 +28,8 @@ const Questions = () => {
       >
         {data &&
           data.subjects.map((subject: any) => (
-            <option value={subject.subject_name} key={subject.id}>
-              {subject.subject_name}
+            <option value={subject.name} key={subject.id}>
+              {subject.name}
             </option>
           ))}
       </Select>
