@@ -33,14 +33,8 @@ export default async function handler(
     quesId: number;
     questionString: string;
     subject: string;
-    blockTimestamp: number;
-    applicant: string;
-    downvotes: number;
-    status: 0 | 1;
     subTopic: string;
     topic: string;
-    upvotes: number;
-    transactionHash: string;
   }[] = [];
   for (const filter of question_filters) {
     const { topic, count } = filter;
@@ -60,14 +54,8 @@ export default async function handler(
                 quesId
                 questionString
                 subject
-                blockTimestamp
-                applicant
-                downvotes
-                status
                 subTopic
                 topic
-                upvotes
-                transactionHash
               }
             }`,
         }),
@@ -80,14 +68,8 @@ export default async function handler(
           quesId: number;
           questionString: string;
           subject: string;
-          blockTimestamp: number;
-          applicant: string;
-          downvotes: number;
-          status: 0 | 1;
           subTopic: string;
           topic: string;
-          upvotes: number;
-          transactionHash: string;
         }[];
       };
     } = await questions.json();
@@ -131,7 +113,7 @@ export default async function handler(
   // create a csv file
   let csv = questions_to_return
     .map((question) => {
-      return `${question.questionString}, ${question.subject}, ${question.topic}, ${question.subTopic}, ${question.applicant}, ${question.upvotes}, ${question.downvotes}, ${question.status}, ${question.blockTimestamp}, ${question.transactionHash}, ${question.quesId}`;
+      return `${question.questionString}, ${question.subject}, ${question.topic}, ${question.subTopic}, ${question.quesId}`;
     })
     .join("\n");
   // add headers to csv string
