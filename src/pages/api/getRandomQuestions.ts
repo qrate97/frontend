@@ -113,12 +113,12 @@ export default async function handler(
   // create a csv file
   let csv = questions_to_return
     .map((question) => {
-      return `${question.questionString}, ${question.subject}, ${question.topic}, ${question.subTopic}, ${question.quesId}`;
+      return `${question.questionString}, ${question.subject}, ${question.topic}, ${question.subTopic}`;
     })
     .join("\n");
   // add headers to csv string
-  csv = `questionString, subject, topic, subTopic, applicant, upvotes, downvotes, status, blockTimestamp, transactionHash, quesId
-${csv}`;
+  csv = `questionString, subject, topic, subTopic 
+      ${csv}`;
   // set the headers
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", "attachment; filename=questions.csv");
