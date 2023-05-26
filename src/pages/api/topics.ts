@@ -23,6 +23,7 @@ export default async function handler(
           {
             questions(where: {subject: "${subject}"}) { # , status: 1
               topic
+              id
             }
           }
           `,
@@ -33,11 +34,18 @@ export default async function handler(
     await questions.json();
   const results = json_results;
   const topics = results.data.questions.map((question) => question.topic);
-  const uniqueTopics: string[] = [];
+  const uniqueTopics: { topic: string; count: number }[] = [];
   for (const topic of topics) {
-    if (!uniqueTopics.includes(topic)) {
-      uniqueTopics.push(topic);
+    const existingTopic = uniqueTopics.filter((val) => {
+      return val.topic === topic;
+    })[0];
+    let indexOfUniqueTopic = -1;
+    if (existingTopic) {
+      indexOfUniqueTopic = uniqueTopics.indexOf(existingTopic);
+      uniqueTopics[indexOfUniqueTopic].count++;
+      continue;
     }
+    uniqueTopics.push({ topic, count: 1 });
   }
   res.status(200).json(uniqueTopics);
 }

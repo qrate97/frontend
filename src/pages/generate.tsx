@@ -2,6 +2,11 @@ import {
   Button,
   Flex,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
   Select,
   Table,
   Td,
@@ -20,13 +25,15 @@ import {
 
 const Generate = () => {
   const [subject, setSubject] = useState<string>("");
-  const [topics, setTopics] = useState<string[]>([]);
+  const [topics, setTopics] = useState<{ topic: string; count: number }[]>([]);
   const [topic, setTopic] = useState<string>("");
-  const [count, setCount] = useState<number>(1);
+  const [maxTopicQuestionCount, setMaxTopicQuestionCount] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [addButtonDisabled, setAddButtonDisabled] = useState<boolean>(false);
   const [filters, setFilters] = useState<{ topic: string; count: number }[]>(
     []
   );
+  const [flashMessage, setFlashMessage] = useState<string>("");
   const downloadButton = useRef<HTMLAnchorElement | null>(null);
   const [maxQuestions, setMaxQuestions] = useState<number>(10);
 
@@ -42,30 +49,49 @@ const Generate = () => {
       filters.reduce((acc, filter) => acc + filter.count, 0) + count >
         maxQuestions
     );
+    console.log("maxTopicQuestionCount", maxTopicQuestionCount);
   }, [count, filters, maxQuestions, addButtonDisabled]);
 
-  const handletopicCountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handletopicCountChange = (valueString: string) => {
     // check if the sum of total of counts in filters and current value is less than or equal to maxQuestions
     // if not set the addButtonDisabled to true else false
     console.log(
       filters.reduce((acc, filter) => acc + filter.count, 0) +
-        parseInt(e.target.value) >
+        parseInt(valueString) >
         maxQuestions
     );
-    if (
-      filters.reduce((acc, filter) => acc + filter.count, 0) +
-        parseInt(e.target.value) >
-        maxQuestions ||
-      parseInt(e.target.value) <= 0 ||
-      isNaN(parseInt(e.target.value))
-    ) {
+    if (topic === "") {
+      setCount(0);
       setAddButtonDisabled(true);
+      setFlashMessage("");
+    } else if (
+      filters.reduce((acc, filter) => acc + filter.count, 0) +
+        parseInt(valueString) >
+      maxQuestions
+    ) {
+      setCount(0);
+      setAddButtonDisabled(true);
+      setFlashMessage("Maximum Question Selected!");
+    } else if (parseInt(valueString) <= 0 || isNaN(parseInt(valueString))) {
+      setCount(0);
+      setAddButtonDisabled(true);
+      setFlashMessage("Select Atleast One Question!");
+    } else if (parseInt(valueString) > maxTopicQuestionCount) {
+      setCount(0);
+      setAddButtonDisabled(true);
+      setFlashMessage(`You can Select upto ${maxTopicQuestionCount}!`);
     } else {
       setAddButtonDisabled(false);
     }
-    setCount(parseInt(e.target.value));
+    if (valueString) {
+      setCount(parseInt(valueString));
+    } else {
+      setCount(0);
+    }
   };
-
+  useEffect(() => {
+    handletopicCountChange("");
+  }, []);
   const handleTopicAdd: MouseEventHandler<HTMLButtonElement> = (e) => {
     // set filters to a new array with the new filter added and set topic and count to empty string
     // the new filters array should have unique topics and count should be greater than 0 else alert the user
@@ -93,7 +119,7 @@ const Generate = () => {
       }
       //   also remove the topic from topics array
       setTopics((prev) => {
-        return prev.filter((t) => t !== topic);
+        return prev.filter((t) => t.topic !== topic);
       });
       setTopic("");
       setCount(1);
@@ -117,14 +143,21 @@ const Generate = () => {
     if (subject === "") return;
     fetch(`/api/topics?subject=${subject}`)
       .then((res) => res.json())
-      .then((data: string[]) => {
-        // set topics to data but remove the topics that are already present in filters
-        const topics = data.filter((topic) => {
-          return !filters.find((filter) => filter.topic === topic);
-        });
-        setTopics(topics);
-        console.log(topics);
-      });
+      .then(
+        (
+          data: {
+            topic: string;
+            count: number;
+          }[]
+        ) => {
+          // set topics to data but remove the topics that are already present in filters
+          const topics = data.filter((topic) => {
+            return !filters.find((filter) => filter.topic === topic.topic);
+          });
+          setTopics(topics);
+          console.log(topics);
+        }
+      );
   };
 
   const handleGenerate: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -207,12 +240,25 @@ const Generate = () => {
           placeholder="Select Topic"
           isDisabled={topics.length === 0}
           value={topic}
-          onChange={(e) => setTopic(e.target.value)}
+          data-max-count={maxTopicQuestionCount}
+          onChange={(e) => {
+            setTopic(e.target.value);
+            setMaxTopicQuestionCount(
+              parseInt(
+                e.target.options[e.target.selectedIndex].dataset
+                  .maxCount as string
+              ) || 0
+            );
+          }}
         >
           {topics.map((topic, index) => {
             return (
-              <option value={topic} key={index}>
-                {topic}
+              <option
+                value={topic.topic}
+                key={index}
+                data-max-count={topic.count}
+              >
+                {topic.topic}
               </option>
             );
           })}
@@ -228,26 +274,49 @@ const Generate = () => {
         >
           Questions for this topic:
         </span>
-        {addButtonDisabled ? (
-          <span style={{ flex: 1, textAlign: "left", color: "red" }}>
-            Max Questions reached
-          </span>
-        ) : null}
-        <Input
+
+        <NumberInput
           flex={1}
-          type="number"
           placeholder="Count"
           value={count}
           onChange={handletopicCountChange}
-        ></Input>
+          min={0}
+          max={maxTopicQuestionCount}
+        >
+          <NumberInputField />
+          <NumberInputStepper>
+            <NumberIncrementStepper />
+            <NumberDecrementStepper />
+          </NumberInputStepper>
+        </NumberInput>
         {/* A button to add this topic to filters */}
         {/* Disable the button if sum of counts in filters is greater than or equal to maxQuestions */}
-        <Button onClick={handleTopicAdd} isDisabled={addButtonDisabled}>
-          Add
-        </Button>
+        {addButtonDisabled && flashMessage ? (
+          <span
+            style={{
+              flex: 1,
+              textAlign: "left",
+              color: "red",
+              maxWidth: "250px",
+              minWidth: "200px",
+            }}
+          >
+            {flashMessage}
+          </span>
+        ) : (
+          <Button
+            flex={1}
+            onClick={handleTopicAdd}
+            isDisabled={addButtonDisabled}
+          >
+            Add
+          </Button>
+        )}
       </Flex>
       {/* Generate Question paper button */}
       {/* Disable the button if sum of counts in filters is greater than maxQuestions */}
+      <br></br>
+      <br></br>
       <Button
         onClick={handleGenerate}
         isDisabled={
