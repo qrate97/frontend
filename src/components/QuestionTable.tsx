@@ -19,7 +19,7 @@ const QUERY = gql`
     questions(
       orderBy: blockTimestamp
       orderDirection: desc
-      where: { subject: $subject, status: 0 }
+      where: { subject: $subject, status: 1 }
     ) {
       quesId
       questionString

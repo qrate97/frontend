@@ -27,7 +27,7 @@ const Questions = () => {
         onChange={(e) => setSubject(e.target.value)}
       >
         {data &&
-          data.subjects.map((subject: any) => (
+          data.subjects.map((subject: { id: string; name: string }) => (
             <option value={subject.name} key={subject.id}>
               {subject.name}
             </option>
