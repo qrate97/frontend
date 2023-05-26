@@ -49,7 +49,7 @@ export default async function handler(
         body: JSON.stringify({
           query: `
           {
-              questions(where: {subject: "${subject}", topic: "${topic}"}) { # , status: 1
+              questions(where: {subject: "${subject}", topic: "${topic}", status: 1}) { # 
                 id
                 quesId
                 questionString
