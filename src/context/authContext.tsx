@@ -1,5 +1,6 @@
 import { EthersError } from "ethers";
 import { createContext, useEffect, useState } from "react";
+import { mumbaiRPC } from "@/constants/chains";
 
 // class JsonRpcError extends Error {
 //   code: number;
@@ -76,19 +77,7 @@ export const AuthContextProvider = ({ children }: any) => {
           try {
             await window.ethereum.request({
               method: "wallet_addEthereumChain",
-              params: [
-                {
-                  chainId: "0x13881",
-                  chainName: "Polygon Mumbai Testnet",
-                  rpcUrls: ["https://matic-mumbai.chainstacklabs.com"],
-                  nativeCurrency: {
-                    name: "Mumbai Matic",
-                    symbol: "MATIC",
-                    decimals: 18,
-                  },
-                  blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-                },
-              ],
+              params: mumbaiRPC
             });
             window.ethereum.on("chainChanged", handleChange);
           } catch (error) {
